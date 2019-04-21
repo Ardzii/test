@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./customers.component.css']
 })
 export class CustomersComponent implements OnInit {
+  inputValue = '';
   newCustomer: string;
 
   constructor() { }
@@ -13,9 +14,8 @@ export class CustomersComponent implements OnInit {
   ngOnInit() {
   }
 
-  onAddCustomer() {
-    // alert('Clicked!');
-    this.newCustomer = 'The user\'s new customer';
+  onAddCustomer(newCus: HTMLTextAreaElement) {
+    this.newCustomer = this.inputValue;
   }
 
 }

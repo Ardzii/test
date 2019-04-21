@@ -1,4 +1,11 @@
-<textarea rows="6"></textarea>
-<hr>
-<button (click)="onAddCustomer()">Add customer</button>
+<mat-card>
+  <mat-form-field>
+    <textarea matInput rows="6" [(ngModel)]="inputValue"></textarea>
+    <button
+    mat-raised-button
+    color="primary"
+    (click)="onAddCustomer()">Add customer</button>
+  </mat-form-field>
+</mat-card>
 <p>{{ newCustomer }}</p>
+
