@@ -23,6 +23,5 @@ export class CustomerService {
   addCustomer(customer: Customer) {
     this.customers.push(customer);
     this.customersUpdated.next([...this.customers]);
-    console.log('Added!\n' + this.customers);
   }
 }

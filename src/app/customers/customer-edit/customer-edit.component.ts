@@ -18,7 +18,6 @@ export class CustomerEditComponent implements OnInit {
   }
 
   onAddCustomer(newCus: NgForm) {
-    console.log('Adding...');
     if (!newCus.valid) {
       return;
     }
@@ -27,6 +26,7 @@ export class CustomerEditComponent implements OnInit {
       vat: newCus.value.vat
     };
     this.customerService.addCustomer(newCustomer);
+    newCus.resetForm();
   }
 
 }
