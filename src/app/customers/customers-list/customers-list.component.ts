@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CustomerService } from '../customer.service';
 import { Subscription } from 'rxjs';
+
+import { CustomerService } from '../customer.service';
+import { Customer } from '../customer-model';
 
 @Component({
   selector: 'app-customers-list',
@@ -20,6 +22,10 @@ export class CustomersListComponent implements OnInit, OnDestroy {
         this.customers = customers;
       }
     );
+  }
+
+  onDelete(id: string) {
+    this.customerService.deleteCustomer(id);
   }
 
   ngOnDestroy() {

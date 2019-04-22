@@ -1,4 +1,4 @@
-<mat-accordion multi="true" *ngIf="customers">
+<mat-accordion *ngIf="customers">
   <mat-expansion-panel *ngFor="let customer of customers">
     <mat-expansion-panel-header>
       {{ customer.name }}
@@ -7,7 +7,7 @@
     <mat-action-row>
       <button mat-flat-button color="primary">QUOTES</button>
       <button mat-button color="primary">EDIT</button>
-      <button mat-button color="warn">DELETE</button>
+      <button mat-button color="warn" (click)="onDelete(customer.id)">DELETE</button>
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>

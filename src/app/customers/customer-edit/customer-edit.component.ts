@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { CustomerService } from '../customer.service';
+import { Customer } from '../customer-model';
 
 @Component({
   selector: 'app-customer-edit',
