@@ -1,18 +1,28 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CustomerService {
-  private customers: Customer[];
+  private customers: Customer[] = [];
+  private customersUpdated = new Subject<Customer[]>();
+
   constructor() { }
 
   getCustomers() {
-    return this.customers.slice();
+    if (this.customers) {
+      return [...this.customers];
+    }
+  }
+
+  getCustomersUpdate() {
+    return this.customersUpdated.asObservable();
   }
 
   addCustomer(customer: Customer) {
     this.customers.push(customer);
-    console.log('Customer added...\n' + JSON.stringify(this.customers));
+    this.customersUpdated.next([...this.customers]);
+    console.log('Added!\n' + this.customers);
   }
 }

@@ -1,3 +1,30 @@
-<p>
-  customer-edit works!
-</p>
+<mat-card>
+    <form (submit)="onAddCustomer(customerForm)" #customerForm="ngForm">
+        <mat-form-field>
+            <input
+            matInput
+            type="text"
+            placeholder="Legal name"
+            name="name"
+            ngModel
+            required
+            #name="ngModel">
+            <mat-error *ngIf="name.invalid">Please enter a valid name</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input
+            matInput
+            type="text"
+            placeholder="VAT number"
+            name="vat"
+            ngModel
+            required
+            #vat="ngModel">
+            <mat-error *ngIf="vat.invalid">Please enter a valid VAT number</mat-error>
+          </mat-form-field>
+          <button
+            mat-raised-button
+            type="submit"
+            color="accent">Add customer</button>
+    </form>
+  </mat-card>

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+
+import { CustomerService } from '../customer.service';
 
 @Component({
   selector: 'app-customer-edit',
@@ -6,10 +9,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./customer-edit.component.css']
 })
 export class CustomerEditComponent implements OnInit {
+  name: string;
+  vat: string;
 
-  constructor() { }
+  constructor(private customerService: CustomerService) { }
 
   ngOnInit() {
+  }
+
+  onAddCustomer(newCus: NgForm) {
+    console.log('Adding...');
+    if (!newCus.valid) {
+      return;
+    }
+    const newCustomer: Customer = {
+      name: newCus.value.name,
+      vat: newCus.value.vat
+    };
+    this.customerService.addCustomer(newCustomer);
   }
 
 }
