@@ -1,3 +1,12 @@
+<div class="btn-row">
+  <button
+  mat-raised-button
+  routerLink="/customers"
+  color="accent">
+    Back
+  </button>
+</div>
+
 <mat-card>
     <form (submit)="onAddCustomer(customerForm)" #customerForm="ngForm">
         <mat-form-field>
@@ -27,4 +36,4 @@
             type="submit"
             color="accent">Add customer</button>
     </form>
-  </mat-card>
+</mat-card>

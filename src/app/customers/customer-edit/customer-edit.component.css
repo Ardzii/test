@@ -1,5 +1,14 @@
 mat-form-field,
 textarea {
   width: 100%;
+}
 
+:host {
+  display: block;
+  margin-top: 1rem;
+}
+
+.btn-row {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }

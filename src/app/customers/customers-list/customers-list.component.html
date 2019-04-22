@@ -1,3 +1,12 @@
+<div class="btn-row">
+    <button
+    mat-raised-button
+    color="accent"
+    routerLink="/customers/new-customer">
+    New Customer
+    </button>
+</div>
+
 <mat-accordion *ngIf="customers">
   <mat-expansion-panel *ngFor="let customer of customers">
     <mat-expansion-panel-header>

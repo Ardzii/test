@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 
 import { CustomerService } from '../customer.service';
 import { Customer } from '../customer-model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-customer-edit',
@@ -13,7 +14,9 @@ export class CustomerEditComponent implements OnInit {
   name: string;
   vat: string;
 
-  constructor(private customerService: CustomerService) { }
+  constructor(
+    private customerService: CustomerService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
   }

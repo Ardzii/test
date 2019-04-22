@@ -10,6 +10,7 @@ import { MatInputModule,
          MatExpansionModule
         } from '@angular/material';
 
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CustomersComponent } from './customers/customers.component';
 import { HeaderComponent } from './header/header.component';
@@ -26,6 +27,7 @@ import { CustomerEditComponent } from './customers/customer-edit/customer-edit.c
   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
     MatInputModule,
