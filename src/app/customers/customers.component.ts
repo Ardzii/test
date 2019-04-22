@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+
+import { CustomerService } from './customer.service';
 
 @Component({
   selector: 'app-customers',
@@ -6,16 +9,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./customers.component.css']
 })
 export class CustomersComponent implements OnInit {
-  inputValue = '';
-  newCustomer: string;
+  name: string;
+  vat: string;
 
-  constructor() { }
+  constructor(private customerService: CustomerService) { }
 
   ngOnInit() {
   }
 
-  onAddCustomer(newCus: HTMLTextAreaElement) {
-    this.newCustomer = this.inputValue;
+  onAddCustomer(newCus: NgForm) {
+    if (!newCus.valid) {
+      return;
+    }
+    const newCustomer: Customer = {
+      name: newCus.value.name,
+      vat: newCus.value.vat
+    };
+    this.customerService.addCustomer(newCustomer);
+    console.log('adding...');
   }
-
 }

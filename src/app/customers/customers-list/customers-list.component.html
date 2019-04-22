@@ -1,0 +1,10 @@
+<mat-accordion multi="true" *ngIf="customers.length > 0">
+  <mat-expansion-panel *ngFor="let customer of customers">
+    <mat-expansion-panel-header>
+      {{ customer.name }}
+    </mat-expansion-panel-header>
+    <p>{{ customer.vat }}</p>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<p class="info-text mat-body-1" *ngIf="customers.length <= 0">No customer has been added yet!</p>
