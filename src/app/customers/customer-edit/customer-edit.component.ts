@@ -22,6 +22,7 @@ export class CustomerEditComponent implements OnInit {
       return;
     }
     const newCustomer: Customer = {
+      id: null,
       name: newCus.value.name,
       vat: newCus.value.vat
     };

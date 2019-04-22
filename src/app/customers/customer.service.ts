@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -8,12 +9,14 @@ export class CustomerService {
   private customers: Customer[] = [];
   private customersUpdated = new Subject<Customer[]>();
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getCustomers() {
-    if (this.customers) {
-      return [...this.customers];
-    }
+    this.http.get<{message: string, customers: Customer[]}>('http://localhost:3000/api/customers')
+      .subscribe((customerData) => {
+        this.customers = customerData.customers;
+        this.customersUpdated.next([...this.customers]);
+      });
   }
 
   getCustomersUpdate() {
@@ -21,7 +24,11 @@ export class CustomerService {
   }
 
   addCustomer(customer: Customer) {
-    this.customers.push(customer);
-    this.customersUpdated.next([...this.customers]);
+    this.http.post<{message: string}>('http://localhost:3000/api/customers', customer)
+      .subscribe((res) => {
+        console.log(res.message);
+        this.customers.push(customer);
+        this.customersUpdated.next([...this.customers]);
+      });
   }
 }
