@@ -7,7 +7,10 @@ import { MatInputModule,
          MatCardModule,
          MatButtonModule,
          MatToolbarModule,
-         MatExpansionModule
+         MatExpansionModule,
+         MatProgressSpinnerModule,
+         MatListModule,
+         MatTabsModule
         } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -35,6 +38,9 @@ import { CustomerEditComponent } from './customers/customer-edit/customer-edit.c
     MatButtonModule,
     MatToolbarModule,
     MatExpansionModule,
+    MatProgressSpinnerModule,
+    MatListModule,
+    MatTabsModule,
     HttpClientModule
   ],
   providers: [],

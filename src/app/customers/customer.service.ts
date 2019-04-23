@@ -32,6 +32,10 @@ export class CustomerService {
       });
   }
 
+  getCustomer(id: string) {
+    return this.http.get<Customer>('http://localhost:3000/api/customers/' + id);
+  }
+
   getCustomersUpdate() {
     return this.customersUpdated.asObservable();
   }
@@ -42,6 +46,17 @@ export class CustomerService {
         const id = res.customerId;
         customer.id = id;
         this.customers.push(customer);
+        this.customersUpdated.next([...this.customers]);
+      });
+  }
+
+  updateCustomer(id: string, customer: Customer) {
+    this.http.put('http://localhost:3000/api/customers/' + id, customer)
+      .subscribe(res => {
+        const updatedCustomers = [...this.customers];
+        const oldCustomerIndex = updatedCustomers.findIndex(c => c.id === customer.id);
+        updatedCustomers[oldCustomerIndex] = customer;
+        this.customers = updatedCustomers;
         this.customersUpdated.next([...this.customers]);
       });
   }

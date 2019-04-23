@@ -8,32 +8,53 @@
 </div>
 
 <mat-card>
-    <form (submit)="onAddCustomer(customerForm)" #customerForm="ngForm">
-        <mat-form-field>
-            <input
-            matInput
-            type="text"
-            placeholder="Legal name"
-            name="name"
-            ngModel
-            required
-            #name="ngModel">
-            <mat-error *ngIf="name.invalid">Please enter a valid name</mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <input
-            matInput
-            type="text"
-            placeholder="VAT number"
-            name="vat"
-            ngModel
-            required
-            #vat="ngModel">
-            <mat-error *ngIf="vat.invalid">Please enter a valid VAT number</mat-error>
-          </mat-form-field>
-          <button
-            mat-raised-button
-            type="submit"
-            color="accent">Add customer</button>
-    </form>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+          <mat-tab-group>
+              <mat-tab label="Info">
+                <br>
+                <form (submit)="onSaveCustomer(customerForm)" #customerForm="ngForm" *ngIf="!isLoading">
+                  <mat-form-field>
+                      <input
+                      matInput
+                      type="text"
+                      placeholder="Legal name"
+                      name="name"
+                      [ngModel]="customer?.name"
+                      required
+                      #name="ngModel">
+                      <mat-error *ngIf="name.invalid">Please enter a valid name</mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input
+                      matInput
+                      type="text"
+                      placeholder="VAT number"
+                      name="vat"
+                      [ngModel]="customer?.vat"
+                      required
+                      #vat="ngModel">
+                      <mat-error *ngIf="vat.invalid">Please enter a valid VAT number</mat-error>
+                    </mat-form-field>
+                  <button
+                  mat-raised-button
+                  type="submit"
+                  color="accent">{{ editMode ? "Update Customer" : "Add Customer"}}</button>
+                </form>
+              </mat-tab>
+              <mat-tab label="Documents">
+                <mat-list>
+                    <mat-nav-list>
+                      <a mat-list-item (click)="fsPicker.click()">Upload financial statements</a><input type="file" #fsPicker>
+                      <a mat-list-item (click)="cdPicker.click()">Upload the constitutional documents</a><input type="file" #cdPicker>
+                      <a mat-list-item (click)="idPicker.click()">Upload the ID</a><input type="file" #idPicker>
+                      <a mat-list-item (click)="adPicker.click()">Upload the bank account details</a><input type="file" #adPicker>
+                    </mat-nav-list>
+                </mat-list>
+              </mat-tab>
+            </mat-tab-group>
+
+
+
+
 </mat-card>
