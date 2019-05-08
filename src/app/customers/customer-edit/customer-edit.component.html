@@ -1,60 +1,57 @@
-<div class="btn-row">
-  <button
-  mat-raised-button
-  routerLink="/customers"
-  color="accent">
-    Back
-  </button>
-</div>
+<form (ngSubmit)="onSaveCustomer()" [formGroup]="customerForm" *ngIf="!isLoading">
+  <div class="btn-row">
+    <button
+    mat-raised-button
+    type="submit"
+    color="accent">{{ editMode ? "Update Customer" : "Add Customer"}}</button>
+    <button
+    mat-raised-button
+    routerLink="/customers"
+    color="accent">
+      Back
+    </button>
+  </div>
 
-<mat-card>
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <mat-card>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
 
-          <mat-tab-group>
-              <mat-tab label="Info">
-                <br>
-                <form (submit)="onSaveCustomer(customerForm)" #customerForm="ngForm" *ngIf="!isLoading">
-                  <mat-form-field>
-                      <input
-                      matInput
-                      type="text"
-                      placeholder="Legal name"
-                      name="name"
-                      [ngModel]="customer?.name"
-                      required
-                      #name="ngModel">
-                      <mat-error *ngIf="name.invalid">Please enter a valid name</mat-error>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <input
-                      matInput
-                      type="text"
-                      placeholder="VAT number"
-                      name="vat"
-                      [ngModel]="customer?.vat"
-                      required
-                      #vat="ngModel">
-                      <mat-error *ngIf="vat.invalid">Please enter a valid VAT number</mat-error>
-                    </mat-form-field>
-                  <button
-                  mat-raised-button
-                  type="submit"
-                  color="accent">{{ editMode ? "Update Customer" : "Add Customer"}}</button>
-                </form>
-              </mat-tab>
-              <mat-tab label="Documents">
-                <mat-list>
-                    <mat-nav-list>
-                      <a mat-list-item (click)="fsPicker.click()">Upload financial statements</a><input type="file" #fsPicker>
-                      <a mat-list-item (click)="cdPicker.click()">Upload the constitutional documents</a><input type="file" #cdPicker>
-                      <a mat-list-item (click)="idPicker.click()">Upload the ID</a><input type="file" #idPicker>
-                      <a mat-list-item (click)="adPicker.click()">Upload the bank account details</a><input type="file" #adPicker>
-                    </mat-nav-list>
-                </mat-list>
-              </mat-tab>
-            </mat-tab-group>
+    <mat-tab-group>
+        <mat-tab label="Info">
+          <br>
+
+            <mat-form-field>
+                <input
+                matInput
+                type="text"
+                placeholder="Legal name"
+                name="name"
+                formControlName="name">
+                <mat-error *ngIf="">Please enter a valid name</mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <input
+                matInput
+                type="text"
+                placeholder="VAT number"
+                name="vat"
+                formControlName="vat">
+                <mat-error *ngIf="">Please enter a valid VAT number</mat-error>
+              </mat-form-field>
 
 
+        </mat-tab>
 
+        <mat-tab label="Documents">
+          <mat-list>
+              <mat-nav-list>
+                <a mat-list-item (click)="fsPicker.click()">Upload financial statements</a><input type="file" #fsPicker>
+                <a mat-list-item (click)="cdPicker.click()">Upload the constitutional documents</a><input type="file" #cdPicker>
+                <a mat-list-item (click)="idPicker.click()">Upload the ID</a><input type="file" #idPicker>
+                <a mat-list-item (click)="adPicker.click()">Upload the bank account details</a><input type="file" #adPicker>
+              </mat-nav-list>
+          </mat-list>
+        </mat-tab>
+      </mat-tab-group>
 
-</mat-card>
+  </mat-card>
+</form>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 import { CustomerService } from '../customer.service';
@@ -19,6 +19,7 @@ export class CustomerEditComponent implements OnInit {
   vat: string;
   editMode = false;
   customer: Customer;
+  customerForm: FormGroup;
 
   constructor(
     private customerService: CustomerService,
@@ -37,40 +38,43 @@ export class CustomerEditComponent implements OnInit {
               .subscribe(customerData => {
                 this.isLoading = false;
                 this.customer = customerData as Customer;
+                this.customerForm = new FormGroup({
+                  name: new FormControl(this.customer.name, {}),
+                  vat: new FormControl(this.customer.vat, {})
+                });
               });
           } else {
             this.editMode = false;
             this.id = null;
+            this.customerForm = new FormGroup({
+              name: new FormControl(null, {}),
+              vat: new FormControl(null, {})
+            });
           }
       });
   }
 
-  onSaveCustomer(cusForm: NgForm) {
-    if (!cusForm.valid) {
+  onSaveCustomer() {
+    if (!this.customerForm.valid) {
       return;
     }
     this.isLoading = true;
     if (!this.editMode) {
       const newCustomer: Customer = {
         id: null,
-        name: cusForm.value.name,
-        vat: cusForm.value.vat
+        name: this.customerForm.value.name,
+        vat: this.customerForm.value.vat
       };
       this.customerService.addCustomer(newCustomer);
-      cusForm.resetForm();
+      this.customerForm.reset();
     } else {
       const updatedCustomer: Customer = {
         id: this.id,
-        name: cusForm.value.name,
-        vat: cusForm.value.vat
+        name: this.customerForm.value.name,
+        vat: this.customerForm.value.vat
       };
       this.customerService.updateCustomer(this.id, updatedCustomer);
     }
     this.router.navigate(['/customers']);
   }
-
-  onUpdateCustomer(updatedCus: NgForm) {
-
-  }
-
 }
