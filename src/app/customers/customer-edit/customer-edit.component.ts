@@ -14,6 +14,7 @@ export class CustomerEditComponent implements OnInit {
 
   private id: string;
 
+  savedInfo = false;
   isLoading = false;
   name: string;
   vat: string;
@@ -27,34 +28,35 @@ export class CustomerEditComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
+    this.isLoading = true;
+    this.customerForm = new FormGroup({
+      name: new FormControl(null, {validators: Validators.required}),
+      vat: new FormControl(null, {validators: Validators.required})
+    });
     this.route.paramMap
       .subscribe(
         (paramMap: ParamMap) => {
           if (paramMap.has('id')) {
             this.editMode = true;
             this.id = paramMap.get('id');
-            this.isLoading = true;
             this.customerService.getCustomer(this.id)
               .subscribe(customerData => {
-                this.isLoading = false;
                 this.customer = customerData as Customer;
-                this.customerForm = new FormGroup({
-                  name: new FormControl(this.customer.name, {}),
-                  vat: new FormControl(this.customer.vat, {})
+                this.customerForm.setValue({
+                  name: this.customer.name,
+                  vat: this.customer.vat
                 });
+                this.isLoading = false;
               });
           } else {
             this.editMode = false;
             this.id = null;
-            this.customerForm = new FormGroup({
-              name: new FormControl(null, {}),
-              vat: new FormControl(null, {})
-            });
+            this.isLoading = false;
           }
       });
   }
 
-  onSaveCustomer() {
+  onSubmit() {
     if (!this.customerForm.valid) {
       return;
     }
@@ -76,5 +78,10 @@ export class CustomerEditComponent implements OnInit {
       this.customerService.updateCustomer(this.id, updatedCustomer);
     }
     this.router.navigate(['/customers']);
+  }
+
+  onSaveInfo() {
+    this.savedInfo = true;
+    console.log('Saving info!');
   }
 }

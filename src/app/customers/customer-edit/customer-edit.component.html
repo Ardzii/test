@@ -1,4 +1,6 @@
-<form (ngSubmit)="onSaveCustomer()" [formGroup]="customerForm" *ngIf="!isLoading">
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+
+<form (ngSubmit)="onSubmit()" [formGroup]="customerForm" *ngIf="!isLoading">
   <div class="btn-row">
     <button
     mat-raised-button
@@ -7,37 +9,43 @@
     <button
     mat-raised-button
     routerLink="/customers"
-    color="accent">
+    color="accent"
+    [disabled]="savedInfo">
       Back
     </button>
   </div>
 
   <mat-card>
-    <mat-spinner *ngIf="isLoading"></mat-spinner>
-
     <mat-tab-group>
         <mat-tab label="Info">
           <br>
 
-            <mat-form-field>
-                <input
-                matInput
-                type="text"
-                placeholder="Legal name"
-                name="name"
-                formControlName="name">
-                <mat-error *ngIf="">Please enter a valid name</mat-error>
-              </mat-form-field>
-              <mat-form-field>
-                <input
-                matInput
-                type="text"
-                placeholder="VAT number"
-                name="vat"
-                formControlName="vat">
-                <mat-error *ngIf="">Please enter a valid VAT number</mat-error>
-              </mat-form-field>
+          <mat-form-field>
+              <input
+              matInput
+              type="text"
+              placeholder="Legal name"
+              name="name"
+              formControlName="name">
+              <mat-error *ngIf="customerForm.get('name').invalid">Please enter a valid name</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input
+            matInput
+            type="text"
+            placeholder="VAT number"
+            name="vat"
+            formControlName="vat">
+            <mat-error *ngIf="customerForm.get('vat').invalid">Please enter a valid VAT number</mat-error>
+          </mat-form-field>
 
+          <p>
+            <button
+            mat-raised-button
+            (click)="onSaveInfo()">
+            Save Info
+            </button>
+          </p>
 
         </mat-tab>
 
