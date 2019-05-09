@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Customer } from './customer-model';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -40,14 +41,20 @@ export class CustomerService {
     return this.customersUpdated.asObservable();
   }
 
-  addCustomer(customer: Customer) {
-    this.http.post<{message: string, customerId: string}>('http://localhost:3000/api/customers', customer)
-      .subscribe((res) => {
-        const id = res.customerId;
-        customer.id = id;
-        this.customers.push(customer);
-        this.customersUpdated.next([...this.customers]);
-      });
+  addCustomer(info: FormGroup, docsData: FormGroup) {
+    const customerData = new FormData();
+    const docs = docsData.value;
+    customerData.append('name', info.get('name').value);
+    customerData.append('vat', info.get('vat').value);
+    customerData.append('doc', docs);
+    console.log(customerData);
+    // this.http.post<{message: string, customerId: string}>('http://localhost:3000/api/customers', customer)
+    //   .subscribe((res) => {
+    //     const id = res.customerId;
+    //     customer.id = id;
+    //     this.customers.push(customer);
+    //     this.customersUpdated.next([...this.customers]);
+    //   });
   }
 
   updateCustomer(id: string, customer: Customer) {

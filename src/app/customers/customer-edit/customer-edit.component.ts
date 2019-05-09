@@ -75,12 +75,14 @@ export class CustomerEditComponent implements OnInit {
     });
     this.customerForm.get('docs').get(type).updateValueAndValidity();
     this.customerForm.get('docs').get(type).markAsDirty();
-    if (!this.customerForm.get('docs').get(type).valid) {
-      this.openAlert();
-      this.customerForm.get('docs').patchValue({
-        [type]: null
-      });
-    }
+    console.log(this.customerForm.get('docs').get(type));
+    console.log(this.customerForm.get('docs').get(type).valid);
+    // if (!this.customerForm.get('docs').get(type).valid) {
+    //   this.openAlert();
+    //   this.customerForm.get('docs').patchValue({
+    //     [type]: null
+    //   });
+    // }
   }
 
   onSubmit() {
@@ -89,12 +91,12 @@ export class CustomerEditComponent implements OnInit {
     }
     this.isLoading = true;
     if (!this.editMode) {
-      const newCustomer: Customer = {
-        id: null,
-        name: this.customerForm.get('info').value.name,
-        vat: this.customerForm.get('info').value.vat
-      };
-      this.customerService.addCustomer(newCustomer);
+      // const newCustomer: Customer = {
+      //   id: null,
+      //   name: this.customerForm.get('info').value.name,
+      //   vat: this.customerForm.get('info').value.vat
+      // };
+      this.customerService.addCustomer(this.customerForm.get('info').value, this.customerForm.get('docs').value);
       this.customerForm.reset();
     } else {
       const updatedCustomer: Customer = {
