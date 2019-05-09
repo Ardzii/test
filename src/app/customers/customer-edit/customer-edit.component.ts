@@ -7,7 +7,7 @@ import { Customer } from '../customer-model';
 import { MatDialog } from '@angular/material';
 import { ConfirmationDialogComponent } from '../../shared/dialog/confirmation-dialog/confirmation-dialog.component';
 import { mimeType } from './mime-type.validator';
-import { AlertDialogComponent } from 'src/app/shared/dialog/alert-dialog/alert-dialog.component';
+import { AlertDialogComponent } from '../../shared/dialog/alert-dialog/alert-dialog.component';
 
 @Component({
   selector: 'app-customer-edit',
