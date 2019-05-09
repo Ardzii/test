@@ -21,6 +21,7 @@ import { HeaderComponent } from './header/header.component';
 import { CustomersListComponent } from './customers/customers-list/customers-list.component';
 import { CustomerEditComponent } from './customers/customer-edit/customer-edit.component';
 import { ConfirmationDialogComponent } from './shared/dialog/confirmation-dialog/confirmation-dialog.component';
+import { AlertDialogComponent } from './shared/dialog/alert-dialog/alert-dialog.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ConfirmationDialogComponent } from './shared/dialog/confirmation-dialog
     CustomersListComponent,
     CustomerEditComponent,
     ConfirmationDialogComponent,
+    AlertDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +52,9 @@ import { ConfirmationDialogComponent } from './shared/dialog/confirmation-dialog
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [ConfirmationDialogComponent]
+  entryComponents: [
+    ConfirmationDialogComponent,
+    AlertDialogComponent
+  ]
 })
 export class AppModule { }

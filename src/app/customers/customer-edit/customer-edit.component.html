@@ -4,7 +4,10 @@
 
   <mat-card>
     <mat-tab-group>
-        <mat-tab label="Info">
+        <mat-tab
+        label="Info"
+        formGroupName="info">
+
           <br>
 
           <mat-form-field>
@@ -14,8 +17,9 @@
               placeholder="Legal name"
               name="name"
               formControlName="name">
-              <mat-error *ngIf="customerForm.get('name').invalid">Please enter a valid name</mat-error>
+              <mat-error *ngIf="customerForm.get('info').get('name').invalid">Please enter a valid name</mat-error>
           </mat-form-field>
+
           <mat-form-field>
             <input
             matInput
@@ -23,18 +27,36 @@
             placeholder="VAT number"
             name="vat"
             formControlName="vat">
-            <mat-error *ngIf="customerForm.get('vat').invalid">Please enter a valid VAT number</mat-error>
+            <mat-error *ngIf="customerForm.get('info').get('vat').invalid">Please enter a valid VAT number</mat-error>
           </mat-form-field>
 
         </mat-tab>
 
-        <mat-tab label="Documents">
+        <mat-tab
+        label="Documents"
+        formGroupName="docs">
           <mat-list>
               <mat-nav-list>
-                <a mat-list-item (click)="fsPicker.click()">Upload financial statements</a><input type="file" #fsPicker>
-                <a mat-list-item (click)="cdPicker.click()">Upload the constitutional documents</a><input type="file" #cdPicker>
-                <a mat-list-item (click)="idPicker.click()">Upload the ID</a><input type="file" #idPicker>
-                <a mat-list-item (click)="adPicker.click()">Upload the bank account details</a><input type="file" #adPicker>
+                <a mat-list-item
+                (click)="fsPicker.click()">
+                Upload financial statements
+                </a><input type="file" #fsPicker (change)="onDocPicked($event, 'fs')">
+
+                <a mat-list-item
+                (click)="cdPicker.click()">
+                Upload the constitutional documents
+                </a><input type="file" #cdPicker (change)="onDocPicked($event, 'cd')">
+
+                <a mat-list-item
+                (click)="idPicker.click()">
+                Upload the ID
+                </a><input type="file" #idPicker (change)="onDocPicked($event, 'id')">
+
+                <a mat-list-item
+                (click)="adPicker.click()">
+                Upload the bank account details
+                </a><input type="file" #adPicker (change)="onDocPicked($event, 'ad')">
+
               </mat-nav-list>
           </mat-list>
         </mat-tab>
@@ -43,7 +65,8 @@
           <button
           mat-raised-button
           type="submit"
-          color="accent">{{ editMode ? "Update Customer" : "Add Customer"}}</button>
+          color="accent"
+          [disabled]="customerForm.invalid">{{ editMode ? "Update Customer" : "Add Customer"}}</button>
           <button
           type="button"
           mat-raised-button

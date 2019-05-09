@@ -4,8 +4,10 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 import { CustomerService } from '../customer.service';
 import { Customer } from '../customer-model';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { ConfirmationDialogComponent } from '../../shared/dialog/confirmation-dialog/confirmation-dialog.component';
+import { mimeType } from './mime-type.validator';
+import { AlertDialogComponent } from 'src/app/shared/dialog/alert-dialog/alert-dialog.component';
 
 @Component({
   selector: 'app-customer-edit',
@@ -32,8 +34,16 @@ export class CustomerEditComponent implements OnInit {
   ngOnInit() {
     this.isLoading = true;
     this.customerForm = new FormGroup({
-      name: new FormControl(null, {validators: Validators.required}),
-      vat: new FormControl(null, {validators: Validators.required})
+      info: new FormGroup({
+        name: new FormControl(null, {validators: Validators.required}),
+        vat: new FormControl(null, {validators: Validators.required}),
+      }),
+      docs: new FormGroup({
+        fs: new FormControl(null, {asyncValidators: mimeType}),
+        cd: new FormControl(null, {asyncValidators: mimeType}),
+        id: new FormControl(null, {asyncValidators: mimeType}),
+        ad: new FormControl(null, {asyncValidators: mimeType})
+      })
     });
     this.route.paramMap
       .subscribe(
@@ -44,9 +54,9 @@ export class CustomerEditComponent implements OnInit {
             this.customerService.getCustomer(this.id)
               .subscribe(customerData => {
                 this.customer = customerData as Customer;
-                this.customerForm.setValue({
+                this.customerForm.get('info').patchValue({
                   name: this.customer.name,
-                  vat: this.customer.vat
+                  vat: this.customer.vat,
                 });
                 this.isLoading = false;
               });
@@ -58,6 +68,21 @@ export class CustomerEditComponent implements OnInit {
       });
   }
 
+  onDocPicked(event: Event, type: string) {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.customerForm.get('docs').patchValue({
+      [type]: file
+    });
+    this.customerForm.get('docs').get(type).updateValueAndValidity();
+    this.customerForm.get('docs').get(type).markAsDirty();
+    if (!this.customerForm.get('docs').get(type).valid) {
+      this.openAlert();
+      this.customerForm.get('docs').patchValue({
+        [type]: null
+      });
+    }
+  }
+
   onSubmit() {
     if (!this.customerForm.valid) {
       return;
@@ -66,16 +91,16 @@ export class CustomerEditComponent implements OnInit {
     if (!this.editMode) {
       const newCustomer: Customer = {
         id: null,
-        name: this.customerForm.value.name,
-        vat: this.customerForm.value.vat
+        name: this.customerForm.get('info').value.name,
+        vat: this.customerForm.get('info').value.vat
       };
       this.customerService.addCustomer(newCustomer);
       this.customerForm.reset();
     } else {
       const updatedCustomer: Customer = {
         id: this.id,
-        name: this.customerForm.value.name,
-        vat: this.customerForm.value.vat
+        name: this.customerForm.get('info').value.name,
+        vat: this.customerForm.get('info').value.vat
       };
       this.customerService.updateCustomer(this.id, updatedCustomer);
     }
@@ -88,6 +113,10 @@ export class CustomerEditComponent implements OnInit {
     } else {
       this.router.navigate(['/customers']);
     }
+  }
+
+  openAlert(): void {
+    const dialogRef = this.dialog.open(AlertDialogComponent);
   }
 
   openDialog(): void {
