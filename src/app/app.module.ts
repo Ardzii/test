@@ -10,7 +10,8 @@ import { MatInputModule,
          MatExpansionModule,
          MatProgressSpinnerModule,
          MatListModule,
-         MatTabsModule
+         MatTabsModule,
+         MatDialogModule
         } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -19,6 +20,7 @@ import { CustomersComponent } from './customers/customers.component';
 import { HeaderComponent } from './header/header.component';
 import { CustomersListComponent } from './customers/customers-list/customers-list.component';
 import { CustomerEditComponent } from './customers/customer-edit/customer-edit.component';
+import { ConfirmationDialogComponent } from './shared/dialog/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { CustomerEditComponent } from './customers/customer-edit/customer-edit.c
     CustomersComponent,
     HeaderComponent,
     CustomersListComponent,
-    CustomerEditComponent
+    CustomerEditComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,9 +45,11 @@ import { CustomerEditComponent } from './customers/customer-edit/customer-edit.c
     MatProgressSpinnerModule,
     MatListModule,
     MatTabsModule,
+    MatDialogModule,
     HttpClientModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ConfirmationDialogComponent]
 })
 export class AppModule { }

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 import { CustomerService } from '../customer.service';
 import { Customer } from '../customer-model';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { ConfirmationDialogComponent } from '../../shared/dialog/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-customer-edit',
@@ -14,7 +16,6 @@ export class CustomerEditComponent implements OnInit {
 
   private id: string;
 
-  savedInfo = false;
   isLoading = false;
   name: string;
   vat: string;
@@ -25,7 +26,8 @@ export class CustomerEditComponent implements OnInit {
   constructor(
     private customerService: CustomerService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private dialog: MatDialog) { }
 
   ngOnInit() {
     this.isLoading = true;
@@ -80,8 +82,25 @@ export class CustomerEditComponent implements OnInit {
     this.router.navigate(['/customers']);
   }
 
-  onSaveInfo() {
-    this.savedInfo = true;
-    console.log('Saving info!');
+  onCancel() {
+    if (this.customerForm.dirty) {
+      this.openDialog();
+    } else {
+      this.router.navigate(['/customers']);
+    }
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    });
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data) {
+          this.router.navigate(['/customers']);
+        } else {
+          return;
+        }
+      }
+    );
   }
 }

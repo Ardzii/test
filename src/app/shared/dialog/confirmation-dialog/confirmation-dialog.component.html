@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Wait, are you sure?</h1>
+<mat-dialog-content>
+  <p>You're about to leave and discard all the changes you've made.</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>No, please take me back</button>
+  <button mat-button [mat-dialog-close]="true">Sure, discard changes</button>
+</mat-dialog-actions>
+

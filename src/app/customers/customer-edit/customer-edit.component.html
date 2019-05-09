@@ -1,19 +1,6 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 
 <form (ngSubmit)="onSubmit()" [formGroup]="customerForm" *ngIf="!isLoading">
-  <div class="btn-row">
-    <button
-    mat-raised-button
-    type="submit"
-    color="accent">{{ editMode ? "Update Customer" : "Add Customer"}}</button>
-    <button
-    mat-raised-button
-    routerLink="/customers"
-    color="accent"
-    [disabled]="savedInfo">
-      Back
-    </button>
-  </div>
 
   <mat-card>
     <mat-tab-group>
@@ -39,14 +26,6 @@
             <mat-error *ngIf="customerForm.get('vat').invalid">Please enter a valid VAT number</mat-error>
           </mat-form-field>
 
-          <p>
-            <button
-            mat-raised-button
-            (click)="onSaveInfo()">
-            Save Info
-            </button>
-          </p>
-
         </mat-tab>
 
         <mat-tab label="Documents">
@@ -60,6 +39,18 @@
           </mat-list>
         </mat-tab>
       </mat-tab-group>
-
+      <div class="btn-row">
+          <button
+          mat-raised-button
+          type="submit"
+          color="accent">{{ editMode ? "Update Customer" : "Add Customer"}}</button>
+          <button
+          type="button"
+          mat-raised-button
+          (click)="onCancel()"
+          color="accent">
+            Cancel
+          </button>
+        </div>
   </mat-card>
 </form>
