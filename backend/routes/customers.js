@@ -4,13 +4,30 @@ const multer = require('multer');
 
 const router = express.Router();
 
+const MIME_TYPE_MAP = {
+  'image/png': 'png',
+  'image/jpeg': 'jpeg',
+  'image/jpg': 'jpg',
+  'application/pdf': 'pdf'
+}
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'backend/docs');
+    const isValid = MIME_TYPE_MAP[file.mimetype];
+    let err = new Error('invalid mime type!');
+    if (isValid) {
+      err = null;
+    }
+    cb(err, 'backend/docs');
+  },
+  filename: (req, file, cb) => {
+    const name = file.originalname.toLowerCase().split('').join('-');
+    const ext = MIME_TYPE_MAP[file.mimetype];
+    cb(null, name + '-' + Date.now() + '.' + ext);
   }
 });
 
-router.post('', (req, res, next) => {
+router.post('', multer(storage).single('doc'), (req, res, next) => {
   const customer = new Customer({
     name: req.body.name,
     vat: req.body.vat
