@@ -1,7 +1,14 @@
 const express = require('express');
 const Customer = require('../models/customer');
+const multer = require('multer');
 
 const router = express.Router();
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'backend/docs');
+  }
+});
 
 router.post('', (req, res, next) => {
   const customer = new Customer({
