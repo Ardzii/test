@@ -27,10 +27,19 @@ const storage = multer.diskStorage({
   }
 });
 
-router.post('', multer(storage).single('doc'), (req, res, next) => {
+const upload = multer({storage: storage});
+
+router.post('', upload.any(),
+// .fields([
+//   {name: 'fs'},
+//   {name: 'cd'},
+//   {name: 'id'},
+//   {name: 'ad'},
+//   ]),
+  (req, res, next) => {
   const customer = new Customer({
     name: req.body.name,
-    vat: req.body.vat
+    vat: req.body.vat,
   });
   customer.save().then(result => {
     res.status(201).json({

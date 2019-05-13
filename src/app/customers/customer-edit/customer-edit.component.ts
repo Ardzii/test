@@ -75,14 +75,14 @@ export class CustomerEditComponent implements OnInit {
     });
     this.customerForm.get('docs').get(type).updateValueAndValidity();
     this.customerForm.get('docs').get(type).markAsDirty();
-    console.log(this.customerForm.get('docs').get(type));
-    console.log(this.customerForm.get('docs').get(type).valid);
-    // if (!this.customerForm.get('docs').get(type).valid) {
-    //   this.openAlert();
-    //   this.customerForm.get('docs').patchValue({
-    //     [type]: null
-    //   });
-    // }
+    setTimeout(() => {
+      if (!this.customerForm.get('docs').get(type).valid) {
+      this.openAlert();
+      this.customerForm.get('docs').patchValue({
+          [type]: null
+        });
+      }
+    }, 100);
   }
 
   onSubmit() {

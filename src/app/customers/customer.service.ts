@@ -41,20 +41,25 @@ export class CustomerService {
     return this.customersUpdated.asObservable();
   }
 
-  addCustomer(info: FormGroup, docsData: FormGroup) {
+  addCustomer(info, docsData) {
     const customerData = new FormData();
-    const docs = docsData.value;
-    customerData.append('name', info.get('name').value);
-    customerData.append('vat', info.get('vat').value);
-    customerData.append('doc', docs);
-    console.log(customerData);
-    // this.http.post<{message: string, customerId: string}>('http://localhost:3000/api/customers', customer)
-    //   .subscribe((res) => {
-    //     const id = res.customerId;
-    //     customer.id = id;
-    //     this.customers.push(customer);
-    //     this.customersUpdated.next([...this.customers]);
-    //   });
+    customerData.append('name', info.name);
+    customerData.append('vat', info.vat);
+    customerData.append('docs', docsData);
+    console.log(docsData);
+    this.http.post<{message: string, customerId: string}>(
+      'http://localhost:3000/api/customers',
+      customerData
+      )
+      .subscribe((res) => {
+        const customer: Customer = {
+          id: res.customerId,
+          name: info.name,
+          vat: info.vat
+        };
+        this.customers.push(customer);
+        this.customersUpdated.next([...this.customers]);
+      });
   }
 
   updateCustomer(id: string, customer: Customer) {
